@@ -1,0 +1,112 @@
+#ifndef CAMERA_2D_H
+#define CAMERA_2D_H
+
+#include <windows.h>
+
+class Camera2D
+{
+protected:
+
+	double L, R, B, T;					// Мировые координаты границ рабочей области окна
+	int W, H;							// Разрешение рабочей области окна
+
+	int WorldToScreenX(double X)		// Переход от мировых координат к экранным (для абсциссы)
+	{
+		return (X - L) / (R - L) * W;
+	}
+	int WorldToScreenY(double Y)		// Переход от мировых координат к экранным (для ординаты)
+	{
+		return (T - Y) / (T - B) * H;
+	}
+	double ScreenToWorldX(int X)		// Переход от экранных координат к мировым (для абсциссы)
+	{
+		return L + (R - L) * (X + 0.5) / W;
+	}
+	double ScreenToWorldY(int Y)		// Переход от экранных координат к мировым (для ординаты)
+	{
+		return T - (T - B) * (Y + 0.5) / H;
+	}
+
+private:
+
+	double posX, posY;					// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
+
+public:
+	Camera2D(double L, double R, double B, double T) : L(L), R(R), B(B), T(T)
+	{
+		H = B - 1;
+		W = R - 1;
+		posX = 0.0;
+		posY = 0.0;
+	}
+	void Clear(HDC dc)
+	{
+		Rectangle(dc, 0, 0, W, H);
+	}
+	void SetResolution(HDC dc)
+	{
+		RECT r;
+		GetClientRect(WindowFromDC(dc), &r);
+
+		W = r.right;
+		H = r.bottom;
+
+		B = (B + T) / 2 - (R - L) / 2 * H / W;
+		T = (B + T) / 2 + (R - L) / 2 * H / W;
+
+		// Данная процедура вызывается при изменении размеров окна
+		// В ней задаются значения величин W, H, а также настраиваются значения параметров L, R, B, T таким образом, чтобы обеспечить одинаковые масштабы по координатным осям
+	}
+	void MoveTo(double X, double Y)
+	{
+		posX = X;
+		posY = Y;
+		// Перемещение графического курсора (posX, posY)
+		// Обратите внимание, что мы действуем в мировых координатах
+	}
+	void LineTo(HDC dc, double X, double Y)
+	{
+		MoveToEx(dc, WorldToScreenX(posX), WorldToScreenY(posY), NULL);
+		::LineTo(dc, WorldToScreenX(X), WorldToScreenY(Y));
+		MoveTo(X, Y);
+		// Отрисовка линии из текущей позиции графического курсора в точку (X, Y) и его перемещение в эту точку
+		// Обратите внимание, что мы действуем в мировых координатах
+		// При отрисовке линии могут быть использованы WinApi функции
+		// ::MoveToEx(dc, Xs, Ys, nullptr) и ::LineTo(dc, Xs, Ys)
+	}
+	void Axes(HDC dc)// Отрисовка координатных осей
+	{
+		HPEN cyanPen, blackPen, redPen;
+		cyanPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 255));
+		redPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+		blackPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+		SelectObject(dc, cyanPen);
+
+
+		for(int i=L;i<=R;i++)
+		{
+			MoveTo(i, 0);
+			LineTo(dc, i, T);
+			MoveTo(i, 0);
+			LineTo(dc, i, B);
+		}
+
+		for (int i = B; i <= T; i++)
+		{
+			MoveTo(0, i);
+			LineTo(dc, L, i);
+			MoveTo(0, i);
+			LineTo(dc, R, i);
+		}
+
+		SelectObject(dc, blackPen);
+
+		MoveTo(0, B);//ось x
+		LineTo(dc,0, T);
+
+		MoveTo(L, 0);//ось y
+		LineTo(dc, R, 0);
+	}
+};
+
+#endif CAMERA_2D_H
