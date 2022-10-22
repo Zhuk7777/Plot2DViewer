@@ -7,6 +7,13 @@ double					// Исходные значения параметров L, R, B, T
 	B=-2,
 	T=2;
 
+double//границы интервала и значения постоянных a,b,p
+   tMin = -6.3,
+   tMax = 12.5,
+   a = 1,
+   b = 2,
+   p = 1;
+
 double Parabola(double x)
 {
 	return x*x-2;
@@ -17,7 +24,12 @@ double Sinusoid(double x)
 	return sin(x);
 }
 
-double funcP(double fi)
+double xElliptical(double fi)
 {
-	return 1;
+	return a * p * cos(fi);
+}
+
+double yElliptical(double fi)
+{
+	return b * p * sin(fi);
 }

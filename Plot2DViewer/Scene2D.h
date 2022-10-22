@@ -2,6 +2,7 @@
 #define SCENE_2D_H
 
 #include "Camera2D.h"
+#include"Data.h"
 
 
 class Scene2D : public Camera2D
@@ -9,35 +10,34 @@ class Scene2D : public Camera2D
 private:
 	typedef double (*Func)(double);
 public:
-	Scene2D(double L, double R, double B, double T) : Camera2D(L, R, B, T)
+	Scene2D(double _L, double _R, double _B, double _T) : Camera2D(_L, _R, _B, _T)
 	{
 	}
-	void Plot(HDC dc, Func f, bool axes=true)
+	void Plot(HDC dc, Func f,Func f2=NULL, bool axes=true)
 	{
 		if (axes)
 			Axes(dc);
-
-		double//границы интервала и значения постоянных a,b
-			fiMin = -52.3,
-			fiMax = 27.5,
-			a = 1,
-			b = 2;
 
 		HPEN redPen, blackPen;
 		redPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 		blackPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 		SelectObject(dc, redPen);
 
-		int n = 40;
-		double fi, p;
+		int n = 200;
+		double t;
 
-		p = f(fiMin);
-		MoveTo(a * p * cos(fiMin), b * p * sin(fiMin));
+		if (f2)
+			MoveTo(f(tMin), f2(tMin));
+		else
+			MoveTo(tMin, f(tMin));
+
 		for (int i = 1; i <= n; i++)
 		{
-			fi = fiMin + (fiMax = fiMin) * i / n;
-			p = f(fi);
-			LineTo(dc, a * p * cos(fi), b * p * sin(fi));
+			t = tMin + (tMax - tMin) * i / n;
+			if (f2)
+				LineTo(dc, f(t), f2(t));
+			else
+				LineTo(dc, t, f(t));
 
 		}
 		SelectObject(dc, blackPen);

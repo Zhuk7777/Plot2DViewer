@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <windowsx.h>
-#include "Data.h"
 #include "Scene2D.h"
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);						// прототип оконной процедуры
@@ -53,7 +52,7 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 			HDC dc = GetDC(hWnd);
 			scene.Clear(dc);				// Вызов реализованного в классе Camera2D метода, отвечающего за очистку рабочей области окна hWnd
-			scene.Plot(dc, funcP);		// Вызов реализованного в классе Scene2D метода, отвечающего за отрисовку графика синусоиды
+			scene.Plot(dc, xElliptical, yElliptical);// Вызов реализованного в классе Scene2D метода, отвечающего за отрисовку графика синусоиды
 			ReleaseDC(hWnd,dc);
 			return DefWindowProc(hWnd,msg,wParam,lParam);
 		}
