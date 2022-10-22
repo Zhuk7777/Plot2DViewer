@@ -16,3 +16,8 @@ double Sinusoid(double x)
 {
 	return sin(x);
 }
+
+double funcP(double fi)
+{
+	return 1;
+}
