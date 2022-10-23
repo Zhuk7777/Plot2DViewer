@@ -29,7 +29,9 @@ protected:
 
 private:
 
-	double posX, posY;					// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
+	double posX, posY;// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
+	bool isDragging = false;
+	double previousX, previousY;
 
 public:
 	Camera2D(double L, double R, double B, double T) : L(L), R(R), B(B), T(T)
@@ -83,7 +85,7 @@ public:
 		SelectObject(dc, cyanPen);
 
 
-		for(int i=L;i<=R;i++)
+		for (int i = L; i <= R; i++)
 		{
 			MoveTo(i, 0);
 			LineTo(dc, i, T);
@@ -102,10 +104,49 @@ public:
 		SelectObject(dc, blackPen);
 
 		MoveTo(0, B);//ось x
-		LineTo(dc,0, T);
+		LineTo(dc, 0, T);
 
 		MoveTo(L, 0);//ось y
 		LineTo(dc, R, 0);
+	}
+
+	void StartDragging(int X, int Y)
+	{
+		previousX = ScreenToWorldX(X);
+		previousY = ScreenToWorldY(Y);
+		isDragging = true;
+
+	}
+	void Drag(int X, int Y)
+	{
+		double deltaX = previousX - ScreenToWorldX(X), deltaY = previousY - ScreenToWorldY(Y);// previousX - ScreenToWorldX(X) ,previousY - ScreenToWorldY(Y);
+		double pX = (R - L) / W, pY = (T - B) / H;
+
+		L = L + pX * deltaX*3;
+		R = R + pX * deltaX*3;
+		
+		B = B + pY * deltaY*3;
+		T = T + pY * deltaY*3;
+
+	}
+	void StopDragging()
+	{
+		isDragging = false;
+	}
+	bool IsDragging()
+	{
+		return isDragging;
+	}
+
+	void Move(double X, double Y)
+	{
+		double pX = (R - L) / W, pY = (T - B) / H;
+
+		L = L + pX * X;
+		R = R + pX * X;
+
+		B = B + pY * Y;
+		T = T + pY * Y;
 	}
 };
 

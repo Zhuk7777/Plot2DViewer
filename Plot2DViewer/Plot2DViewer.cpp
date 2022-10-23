@@ -66,6 +66,55 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			return 0;
 		}
 
+	case WM_LBUTTONDOWN:
+	{
+		scene.StartDragging(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+	}
+	case WM_MOUSEMOVE:
+	{
+		if (scene.IsDragging())
+		{
+			scene.Drag(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			InvalidateRect(hWnd, nullptr, false);
+		}
+		return 0;
+	}
+	case WM_LBUTTONUP:
+	{
+		scene.StopDragging();
+		return 0;
+	}
+
+	case WM_KEYDOWN:
+	{
+		switch (wParam)
+		{
+		case VK_LEFT:
+		{
+			scene.Move(-4, 0);
+			break;
+		}
+		case VK_RIGHT:
+		{
+			scene.Move(4, 0);
+			break;
+		}
+		case VK_UP:
+		{
+			scene.Move(0, 4);
+			break;
+		}
+		case VK_DOWN:
+		{
+			scene.Move(0, -4);
+			break;
+		}
+
+		}
+		InvalidateRect(hWnd, nullptr, false);
+		return 0;
+	}
 	case WM_DESTROY:
 		{
 			PostQuitMessage(0);
