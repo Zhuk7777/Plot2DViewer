@@ -36,7 +36,7 @@ private:
 public:
 	Camera2D(double L, double R, double B, double T) : L(L), R(R), B(B), T(T)
 	{
-		H = B - 1;
+		H = B + 1;
 		W = R - 1;
 		posX = 0.0;
 		posY = 0.0;
@@ -147,6 +147,31 @@ public:
 
 		B = B + pY * Y;
 		T = T + pY * Y;
+	}
+
+	void IncreaseSize(double X, double Y, double k)
+	{
+		k = 1 / k;
+
+		X = ScreenToWorldX(X);
+		Y = ScreenToWorldY(Y);
+
+		L = X - (X - L) * k;
+		R = X + (R - X) * k;
+		B = Y - (Y - B) * k;
+		T = Y + (T - Y) * k;
+
+	}
+
+	void DecreaseSize(double X, double Y, double k)
+	{
+		X = ScreenToWorldX(X);
+		Y = ScreenToWorldY(Y);
+
+		L = X - (X - L) * k;
+		R = X + (R - X) * k;
+		B = Y - (Y - B) * k;
+		T = Y + (T - Y) * k;
 	}
 };
 

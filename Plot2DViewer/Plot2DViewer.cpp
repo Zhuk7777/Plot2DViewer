@@ -115,6 +115,17 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		InvalidateRect(hWnd, nullptr, false);
 		return 0;
 	}
+
+	case WM_MOUSEWHEEL:
+	{
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+			scene.IncreaseSize(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 1.2);
+		else
+			scene.DecreaseSize(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 1.2);
+		InvalidateRect(hWnd, nullptr, false);
+		return DefWindowProc(hWnd, msg, wParam, lParam);
+	}
+
 	case WM_DESTROY:
 		{
 			PostQuitMessage(0);
