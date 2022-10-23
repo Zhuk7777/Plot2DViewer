@@ -20,18 +20,18 @@ protected:
 	}
 	double ScreenToWorldX(int X)		// Переход от экранных координат к мировым (для абсциссы)
 	{
-		return L + (R - L) * (X + 0.5) / W;
+		return L + (R - L) * ((double(X) + 0.5) / W);
 	}
 	double ScreenToWorldY(int Y)		// Переход от экранных координат к мировым (для ординаты)
 	{
-		return T - (T - B) * (Y + 0.5) / H;
+		return T - (T - B) * ((double(Y) + 0.5) / H);
 	}
 
 private:
 
-	double posX, posY;// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
+	double posX = 0, posY = 0;// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
 	bool isDragging = false;
-	double previousX, previousY;
+	double previousX = 0, previousY = 0;
 
 public:
 	Camera2D(double L, double R, double B, double T) : L(L), R(R), B(B), T(T)
@@ -49,8 +49,11 @@ public:
 		W = r.right - 1;
 		H = r.bottom - 1;
 
-		B = (B + T) / 2 - (R - L) / 2 * H / W;
-		T = (B + T) / 2 + (R - L) / 2 * H / W;
+		double BNew = (B + T) / 2 - (R - L) / 2 * H / W;
+		double TNew = (B + T) / 2 + (R - L) / 2 * H / W;
+
+		B = BNew;
+		T = TNew;
 	}
 	void MoveTo(double X, double Y)
 	{

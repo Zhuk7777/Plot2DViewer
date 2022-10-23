@@ -23,7 +23,7 @@ public:
 		blackPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 		SelectObject(dc, redPen);
 
-		int n = 200;
+		int n = W;
 		double t;
 
 		if (f2)
