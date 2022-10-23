@@ -20,11 +20,11 @@ protected:
 	}
 	double ScreenToWorldX(int X)		// Переход от экранных координат к мировым (для абсциссы)
 	{
-		return L + (R - L) * ((double(X) + 0.5) / W);
+		return L + (R - L) * ((double(X) + 0.5) / double(W));
 	}
 	double ScreenToWorldY(int Y)		// Переход от экранных координат к мировым (для ординаты)
 	{
-		return T - (T - B) * ((double(Y) + 0.5) / H);
+		return T - (T - B) * ((double(Y) + 0.5) / double(H));
 	}
 
 private:
@@ -49,8 +49,10 @@ public:
 		W = r.right - 1;
 		H = r.bottom - 1;
 
-		double BNew = (B + T) / 2 - (R - L) / 2 * H / W;
-		double TNew = (B + T) / 2 + (R - L) / 2 * H / W;
+		double resolution = double(H) / double(W);
+
+		double BNew = (B + T) / 2 - (R - L) / 2 * resolution;
+		double TNew = (B + T) / 2 + (R - L) / 2 * resolution;
 
 		B = BNew;
 		T = TNew;
@@ -139,29 +141,29 @@ public:
 		T = T + pY * Y;
 	}
 
-	void IncreaseSize(double X, double Y, double k)
+	void IncreaseSize(int X, int Y, double k)
 	{
 		k = 1 / k;
 
-		X = ScreenToWorldX(X);
-		Y = ScreenToWorldY(Y);
+		double XWr = ScreenToWorldX(X);
+		double YWr = ScreenToWorldY(Y);
 
-		L = X - (X - L) * k;
-		R = X + (R - X) * k;
-		B = Y - (Y - B) * k;
-		T = Y + (T - Y) * k;
+		L = XWr - (XWr - L) * k;
+		R = XWr + (R - XWr) * k;
+		B = YWr - (YWr - B) * k;
+		T = YWr + (T - YWr) * k;
 
 	}
 
-	void DecreaseSize(double X, double Y, double k)
+	void DecreaseSize(int X, int Y, double k)
 	{
-		X = ScreenToWorldX(X);
-		Y = ScreenToWorldY(Y);
+		double XWr = ScreenToWorldX(X);
+		double YWr = ScreenToWorldY(Y);
 
-		L = X - (X - L) * k;
-		R = X + (R - X) * k;
-		B = Y - (Y - B) * k;
-		T = Y + (T - Y) * k;
+		L = XWr - (XWr - L) * k;
+		R = XWr + (R - XWr) * k;
+		B = YWr - (YWr - B) * k;
+		T = YWr + (T - YWr) * k;
 	}
 };
 
