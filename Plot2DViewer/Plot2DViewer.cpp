@@ -46,6 +46,10 @@ Scene2D scene(L,R,B,T);
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// оконная процедура принимает и обрабатывает все сообщения, отправленные окну
 {
+	POINT pt;
+	pt.x = GET_X_LPARAM(lParam);
+	pt.y = GET_Y_LPARAM(lParam);
+	ScreenToClient(hWnd, &pt);
 	switch(msg)
 	{
 	case WM_PAINT:
@@ -68,14 +72,15 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 
 	case WM_LBUTTONDOWN:
 	{
-		scene.StartDragging(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		
+		scene.StartDragging(pt.x, pt.y);
 		return 0;
 	}
 	case WM_MOUSEMOVE:
 	{
 		if (scene.IsDragging())
 		{
-			scene.Drag(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			scene.Drag(pt.x, pt.y);
 			InvalidateRect(hWnd, nullptr, false);
 		}
 		return 0;
@@ -119,9 +124,9 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	case WM_MOUSEWHEEL:
 	{
 		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
-			scene.IncreaseSize(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 1.2);
+			scene.IncreaseSize(pt.x, pt.y, 1.2);
 		else
-			scene.DecreaseSize(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 1.2);
+			scene.DecreaseSize(pt.x, pt.y, 1.2);
 		InvalidateRect(hWnd, nullptr, false);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}

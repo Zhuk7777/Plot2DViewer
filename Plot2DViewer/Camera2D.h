@@ -72,7 +72,6 @@ public:
 	{
 		HPEN cyanPen, blackPen, redPen;
 		cyanPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 255));
-		redPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 		blackPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 		SelectObject(dc, cyanPen);
 
