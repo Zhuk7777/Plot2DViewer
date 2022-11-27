@@ -16,10 +16,10 @@ public:
 	Scene2D(double _L, double _R, double _B, double _T) : Camera2D(_L, _R, _B, _T)
 	{
 		int e[] = { 1,2,1,3,1,4,1,5,2,3,3,4,3,5,4,5 };
-		Matrix<int>E(8, 2, e);
+		Matrix<int> E(8, 2, e);
 
-		int v[] = { 1,2,3,1,3,1,2,1,-1,-1,1,1,1,1,1 };
-		Matrix<>V(3, 5);
+		double v[] = { 1,2,3,1,3,1,2,1,-1,-1,1,1,1,1,1 };
+		Matrix<> V(3, 5, v);
 
 		model.setVerAndEd(V, E);
 	}

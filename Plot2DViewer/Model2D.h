@@ -41,9 +41,9 @@ public:
 	int* getEdge(int i)
 	{
 		int* row = new int[2];
-		for (int j = 1; j <= 2; j++)
+		for (int j = 0; j <= 1; j++)
 		{
-			row[j] = Edges(i, j);
+			row[j] = Edges(i, j + 1);
 		}
 
 		return row;
