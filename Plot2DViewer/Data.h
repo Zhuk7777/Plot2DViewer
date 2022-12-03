@@ -33,3 +33,4 @@ double yElliptical(double fi)
 {
 	return b * p * sin(fi);
 }
+

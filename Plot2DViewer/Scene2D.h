@@ -10,9 +10,9 @@ class Scene2D : public Camera2D
 {
 private:
 	typedef double (*Func)(double);
-	Model2D model;
 
 public:
+	Model2D model;
 	Scene2D(double _L, double _R, double _B, double _T) : Camera2D(_L, _R, _B, _T)
 	{
 		int e[] = { 1,2,1,3,1,4,1,5,2,3,3,4,3,5,4,5 };

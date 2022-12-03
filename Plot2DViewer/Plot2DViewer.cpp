@@ -60,7 +60,6 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			HDC dc = GetDC(hWnd);
 			scene.Clear(dc);
 			scene.Render(dc);
-			//scene.Plot(dc, Sinusoid);
 			ReleaseDC(hWnd,dc);
 			return DefWindowProc(hWnd,msg,wParam,lParam);
 		}
@@ -99,31 +98,79 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 		switch (wParam)
 		{
+
 		case VK_LEFT:
 		{
+			if (::GetKeyState(0x52) & 0x8000)
+				scene.model.Apply(Rotation(0.17));
+			else if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(-0.5, 0));
+			else
 			scene.Move(-4, 0);
+			
 			break;
 		}
+
 		case VK_RIGHT:
 		{
-			scene.Move(4, 0);
+			if (::GetKeyState(0x52) & 0x8000)
+				scene.model.Apply(Rotation(-0.17));
+			else if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(0.5, 0));
+			else
+				scene.Move(4, 0);
 			break;
 		}
+
 		case VK_UP:
 		{
-			scene.Move(0, 4);
+			if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(0, 0.5));
+			else
+				scene.Move(0, 4);
 			break;
 		}
+
 		case VK_DOWN:
 		{
-			scene.Move(0, -4);
+			if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(0, -0.5));
+			else
+				scene.Move(0, -4);
 			break;
 		}
+
+		case VK_OEM_PLUS:
+		{
+			scene.model.Apply(Scaling(1.2, 1.2));
+			break;
+
+		}
+
+		case VK_OEM_MINUS:
+		{
+			scene.model.Apply(Scaling(0.8, 0.8));
+			break;
+		}
+
+		case 0x58:
+		{
+			scene.model.Apply(MappingX());
+			break;
+		}
+
+		case 0x59:
+		{
+			scene.model.Apply(MappingY());
+			break;
+		}
+
 
 		}
 		InvalidateRect(hWnd, nullptr, false);
 		return 0;
 	}
+
 
 	case WM_MOUSEWHEEL:
 	{
