@@ -165,6 +165,12 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			break;
 		}
 
+		case 0x4D:
+		{
+			scene.model.Apply(Mapping());
+			break;
+		}
+
 
 		}
 		InvalidateRect(hWnd, nullptr, false);
