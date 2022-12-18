@@ -34,3 +34,7 @@ double yElliptical(double fi)
 	return b * p * sin(fi);
 }
 
+double laba2(double x)
+{
+	return (0.5 * x) - 4;
+}

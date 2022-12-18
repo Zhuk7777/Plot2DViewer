@@ -17,9 +17,15 @@ public:
 	{
 		int e[] = { 1,2,1,3,1,4,1,5,2,3,3,4,3,5,4,5 };
 		Matrix<int> E(8, 2, e);
+		//int e[] = { 1,2,1,3,2,3 };
+		/*Matrix<int> E(3, 2, e);*/
+
+		
 
 		double v[] = { 1,2,3,1,3,1,2,1,-1,-1,1,1,1,1,1 };
 		Matrix<> V(3, 5, v);
+		/*double v[] = { 1,3,3,2,2,1,1,1,1 };
+		Matrix<> V(3, 3, v);*/
 
 		model.setVerAndEd(V, E);
 	}

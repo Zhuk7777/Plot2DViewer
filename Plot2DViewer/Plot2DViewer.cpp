@@ -59,7 +59,8 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 			HDC dc = GetDC(hWnd);
 			scene.Clear(dc);
-			scene.Render(dc);
+			//scene.Render(dc);
+			scene.Plot(dc, Sinusoid, nullptr, false);
 			ReleaseDC(hWnd,dc);
 			return DefWindowProc(hWnd,msg,wParam,lParam);
 		}
@@ -169,6 +170,27 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 			scene.model.Apply(Mapping());
 			break;
+		}
+
+		case 0x5A://1-ое задание
+		{
+			double x = scene.model.GetVertexX(1), y = scene.model.GetVertexY(1);
+			scene.model.Apply(Translation(-x, -y));
+			scene.model.Apply(Mapping());
+			scene.model.Apply(Translation(x, y));
+			break;
+		}
+
+		case 0x53://2-ое задание
+		{
+			scene.model.Apply(Translation(0, 4));
+			scene.model.Apply(Rotation(-0.46));
+			//scene.model.Apply(Scaling(1.2, 1));
+			scene.model.Apply(MappingX());
+			scene.model.Apply(Rotation(0.46));
+			scene.model.Apply(Translation(0, -4));
+			break;
+
 		}
 
 

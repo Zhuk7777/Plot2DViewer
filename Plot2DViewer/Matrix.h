@@ -24,6 +24,8 @@ public:
 	int getCountRows();
 	int getCountCols();
 
+	void setMatrix(int, int, Cell*);
+
 	Cell& operator()(int i, int j) { return cells[i - 1][j - 1]; }
 
 	Matrix& operator = (const Matrix&);		// Перегрузка оператора присваивания
@@ -43,6 +45,20 @@ Matrix<Cell>::Matrix(const Matrix<Cell>& M)
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			cells[i][j] = M.cells[i][j];
+}
+
+template <typename Cell>
+void Matrix<Cell>::setMatrix(int Rows, int Cols, Cell* list)
+{
+	AllocateCells(Rows, Cols);
+	int q = 0;
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+		{
+			cells[i][j] = list[q];
+			q++;
+		}
 }
 
 template <typename Cell>
