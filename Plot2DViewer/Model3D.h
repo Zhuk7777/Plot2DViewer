@@ -5,41 +5,43 @@
 #include "Matrix.h"
 #include"AffineTransform3D.h"
 
-class Model2D
+class Model3D
 {
 private:
 	Matrix<> Vertices;
-	Matrix<int> Edges;
-	Matrix<int>
+	Matrix<int> Verges;
 	Matrix<> ComulativeAT;
 	Matrix<> InitialVertices;
 
 public:
-	Model2D() : Vertices(), Edges(), InitialVertices(), ComulativeAT(Identity()) {}
-	Model2D(const Matrix<> Vertices, const Matrix<int> Edges) :Vertices(Vertices), Edges(Edges),
+	Model3D() : Vertices(), Verges(), InitialVertices(), ComulativeAT(Identity()) {}
+	Model3D(const Matrix<> Vertices, const Matrix<int> Verges) :Vertices(Vertices), Verges(Verges),
 		InitialVertices(Vertices), ComulativeAT(Identity()) {}
 
-	void setVerAndEd(Matrix<> Vertices, Matrix<int> Edges)
+	void setVerAndVerg(Matrix<> Vertices, Matrix<int> Verges)
 	{
 		this->Vertices = Vertices;
-		this->Edges = Edges;
+		this->Verges = Verges;
 
 		InitialVertices = Vertices;
 		ComulativeAT = Identity();
 
 	}
 
-	int getCountEdges() { return Edges.getCountRows(); }
+	int getCountEdges() { Matrix<int> Edges = getEdges(); return Edges.getCountRows(); }
 	int getCountVertices() { return Vertices.getCountCols(); }
+	int getCountVerges() { return Verges.getCountRows(); }
 
 	Matrix<> GetVertices() { return Vertices; }
-	Matrix<int> GetEdges() { return Edges; }
+	Matrix<int> GetVerges() { return Verges; }
 
-	double GetVertexX(int i) { return Vertices(1, i) / Vertices(3, i); }
-	double GetVertexY(int i) { return Vertices(2, i) / Vertices(3, i); }
+	double GetVertexX(int i) { return Vertices(1, i) / Vertices(4, i); }
+	double GetVertexY(int i) { return Vertices(2, i) / Vertices(4, i); }
+	double GetVertexZ(int i) { return Vertices(3, i) / Vertices(4, i); }
 
 	int* getEdge(int i)
 	{
+		Matrix<int>Edges = getEdges();
 		int* row = new int[2];
 		for (int j = 0; j <= 1; j++)
 		{
@@ -50,12 +52,41 @@ public:
 
 	}
 
+	Matrix<int> getEdges()
+	{
+		Matrix<int> Edges(getCountVerges() * 3, 2);
+		int j = 1;
+
+		for (int i = 1; i < getCountVerges(); i++)
+		{
+			Edges(j, 1) = Verges(i, 1);
+			Edges(j, 2) = Verges(i, 2);
+			j++;
+
+			Edges(j, 1) = Verges(i, 1);
+			Edges(j, 2) = Verges(i, 3);
+			j++;
+
+			Edges(j, 1) = Verges(i, 2);
+			Edges(j, 2) = Verges(i, 3);
+			j++;
+		}
+
+		return Edges;
+
+
+	}
+
 	void Apply(Matrix<> A)
 	{
 		ComulativeAT = A * ComulativeAT;
 		Vertices = ComulativeAT * InitialVertices;
 	}
 
+	void Project(Matrix<> P)
+	{
+
+	}
 };
 
 #endif MODEL_2D_H

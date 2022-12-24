@@ -10,7 +10,7 @@ Matrix<> Identity()
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1 };
-	return Matrix<>(3, 3, I);
+	return Matrix<>(4, 4, I);
 }
 
 Matrix<> Translation(double x, double y, double z)
