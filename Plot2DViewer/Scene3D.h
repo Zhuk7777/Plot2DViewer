@@ -10,25 +10,21 @@ public:
 	Model3D model;
 	Scene3D(double _L, double _R, double _B, double _T) : Camera3D(_L, _R, _B, _T)
 	{
-		int e[] = { 1,2,1,3,1,4,1,5,2,3,3,4,3,5,4,5 };
-		Matrix<int> E(8, 2, e);
-		//int e[] = { 1,2,1,3,2,3 };
-		/*Matrix<int> E(3, 2, e);*/
+		int verg[] = {2,3,4,1,3,4,1,2,3,1,2,4 };
+		Matrix<int> VERG(4, 3, verg);
 
 
+		double vert[] = { 1,1,4,3,0,0,0,3,7,3,2,3,1,1,1,1 };
+		Matrix<> VERT(4, 4, vert);
+	
 
-		double v[] = { 1,2,3,1,3,1,2,1,-1,-1,1,1,1,1,1 };
-		Matrix<> V(3, 5, v);
-		/*double v[] = { 1,3,3,2,2,1,1,1,1 };
-		Matrix<> V(3, 3, v);*/
-
-		model.setVerAndVerg(V, E);
+		model.setVerAndVerg(VERT, VERG);
 	}
 
 	void Render(HDC dc, bool axes = true)
 	{
-		if (axes)
-			Axes(dc);
+		/*if (axes)
+			Axes(dc);*/
 
 		HPEN redPen, blackPen;
 		redPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));

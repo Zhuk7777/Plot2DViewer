@@ -14,9 +14,9 @@ private:
 	Matrix<> InitialVertices;
 
 public:
-	Model3D() : Vertices(), Verges(), InitialVertices(), ComulativeAT(Identity()) {}
+	Model3D() : Vertices(), Verges(), InitialVertices(), ComulativeAT(Identity3D()) {}
 	Model3D(const Matrix<> Vertices, const Matrix<int> Verges) :Vertices(Vertices), Verges(Verges),
-		InitialVertices(Vertices), ComulativeAT(Identity()) {}
+		InitialVertices(Vertices), ComulativeAT(Identity3D()) {}
 
 	void setVerAndVerg(Matrix<> Vertices, Matrix<int> Verges)
 	{
@@ -24,7 +24,7 @@ public:
 		this->Verges = Verges;
 
 		InitialVertices = Vertices;
-		ComulativeAT = Identity();
+		ComulativeAT = Identity3D();
 
 	}
 
@@ -57,7 +57,7 @@ public:
 		Matrix<int> Edges(getCountVerges() * 3, 2);
 		int j = 1;
 
-		for (int i = 1; i < getCountVerges(); i++)
+		for (int i = 1; i <= getCountVerges(); i++)
 		{
 			Edges(j, 1) = Verges(i, 1);
 			Edges(j, 2) = Verges(i, 2);
@@ -83,10 +83,6 @@ public:
 		Vertices = ComulativeAT * InitialVertices;
 	}
 
-	void Project(Matrix<> P)
-	{
-
-	}
 };
 
-#endif MODEL_2D_H
+#endif MODEL_3D_H
