@@ -3,7 +3,7 @@
 #include"Matrix.h"
 
 
-Matrix<> Identity()
+Matrix<> Identity3D()
 {
 	double I[16] = {
 		1,0,0,0,

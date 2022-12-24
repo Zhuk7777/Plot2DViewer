@@ -1,9 +1,10 @@
 #include <windows.h>
 #include <windowsx.h>
-#include "Scene2D.h"
-#include"AffineTransform.h"
+#include"Data.h"
 #include"Matrix.h"
-#include"Model2D.h"
+#include"AffineTransform3D.h"
+#include"Model3D.h"
+#include"Scene3D.h"
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);						// прототип оконной процедуры
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)		// основная процедура
@@ -45,7 +46,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 // В основном модуле объявляется только одна глобальная переменная - создаётся объект класса Scene2D
 // Все дальнейшие действия осуществляются посредством обращения к методам, реализованным в этом классе
-Scene2D scene(L,R,B,T);
+Scene3D scene(L,R,B,T);
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// оконная процедура принимает и обрабатывает все сообщения, отправленные окну
 {
@@ -59,8 +60,8 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 			HDC dc = GetDC(hWnd);
 			scene.Clear(dc);
-			//scene.Render(dc);
-			scene.Plot(dc, Sinusoid, nullptr, false);
+			scene.Render(dc);
+			//scene.Plot(dc, Sinusoid, nullptr, false);
 			ReleaseDC(hWnd,dc);
 			return DefWindowProc(hWnd,msg,wParam,lParam);
 		}
@@ -95,109 +96,109 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		return 0;
 	}
 
-	case WM_KEYDOWN:
-	{
-		switch (wParam)
-		{
+	//case WM_KEYDOWN:
+	//{
+	//	switch (wParam)
+	//	{
 
-		case VK_LEFT:
-		{
-			if (::GetKeyState(0x52) & 0x8000)
-				scene.model.Apply(Rotation(0.17));
-			else if (::GetKeyState(0x54) & 0x8000)
-				scene.model.Apply(Translation(-0.5, 0));
-			else
-			scene.Move(-4, 0);
-			
-			break;
-		}
+	//	case VK_LEFT:
+	//	{
+	//		if (::GetKeyState(0x52) & 0x8000)
+	//			scene.model.Apply(Rotation(0.17));
+	//		else if (::GetKeyState(0x54) & 0x8000)
+	//			scene.model.Apply(Translation(-0.5, 0));
+	//		else
+	//		scene.Move(-4, 0);
+	//		
+	//		break;
+	//	}
 
-		case VK_RIGHT:
-		{
-			if (::GetKeyState(0x52) & 0x8000)
-				scene.model.Apply(Rotation(-0.17));
-			else if (::GetKeyState(0x54) & 0x8000)
-				scene.model.Apply(Translation(0.5, 0));
-			else
-				scene.Move(4, 0);
-			break;
-		}
+	//	case VK_RIGHT:
+	//	{
+	//		if (::GetKeyState(0x52) & 0x8000)
+	//			scene.model.Apply(Rotation(-0.17));
+	//		else if (::GetKeyState(0x54) & 0x8000)
+	//			scene.model.Apply(Translation(0.5, 0));
+	//		else
+	//			scene.Move(4, 0);
+	//		break;
+	//	}
 
-		case VK_UP:
-		{
-			if (::GetKeyState(0x54) & 0x8000)
-				scene.model.Apply(Translation(0, 0.5));
-			else
-				scene.Move(0, 4);
-			break;
-		}
+	//	case VK_UP:
+	//	{
+	//		if (::GetKeyState(0x54) & 0x8000)
+	//			scene.model.Apply(Translation(0, 0.5));
+	//		else
+	//			scene.Move(0, 4);
+	//		break;
+	//	}
 
-		case VK_DOWN:
-		{
-			if (::GetKeyState(0x54) & 0x8000)
-				scene.model.Apply(Translation(0, -0.5));
-			else
-				scene.Move(0, -4);
-			break;
-		}
+	//	case VK_DOWN:
+	//	{
+	//		if (::GetKeyState(0x54) & 0x8000)
+	//			scene.model.Apply(Translation(0, -0.5));
+	//		else
+	//			scene.Move(0, -4);
+	//		break;
+	//	}
 
-		case VK_OEM_PLUS:
-		{
-			scene.model.Apply(Scaling(1.2, 1.2));
-			break;
+	//	case VK_OEM_PLUS:
+	//	{
+	//		scene.model.Apply(Scaling(1.2, 1.2));
+	//		break;
 
-		}
+	//	}
 
-		case VK_OEM_MINUS:
-		{
-			scene.model.Apply(Scaling(0.8, 0.8));
-			break;
-		}
+	//	case VK_OEM_MINUS:
+	//	{
+	//		scene.model.Apply(Scaling(0.8, 0.8));
+	//		break;
+	//	}
 
-		case 0x58:
-		{
-			scene.model.Apply(MappingX());
-			break;
-		}
+	//	case 0x58:
+	//	{
+	//		scene.model.Apply(MappingX());
+	//		break;
+	//	}
 
-		case 0x59:
-		{
-			scene.model.Apply(MappingY());
-			break;
-		}
+	//	case 0x59:
+	//	{
+	//		scene.model.Apply(MappingY());
+	//		break;
+	//	}
 
-		case 0x4D:
-		{
-			scene.model.Apply(Mapping());
-			break;
-		}
+	//	case 0x4D:
+	//	{
+	//		scene.model.Apply(Mapping());
+	//		break;
+	//	}
 
-		case 0x5A://1-ое задание
-		{
-			double x = scene.model.GetVertexX(1), y = scene.model.GetVertexY(1);
-			scene.model.Apply(Translation(-x, -y));
-			scene.model.Apply(Mapping());
-			scene.model.Apply(Translation(x, y));
-			break;
-		}
+	//	case 0x5A://1-ое задание
+	//	{
+	//		double x = scene.model.GetVertexX(1), y = scene.model.GetVertexY(1);
+	//		scene.model.Apply(Translation(-x, -y));
+	//		scene.model.Apply(Mapping());
+	//		scene.model.Apply(Translation(x, y));
+	//		break;
+	//	}
 
-		case 0x53://2-ое задание
-		{
-			scene.model.Apply(Translation(0, 4));
-			scene.model.Apply(Rotation(-0.46));
-			//scene.model.Apply(Scaling(1.2, 1));
-			scene.model.Apply(MappingX());
-			scene.model.Apply(Rotation(0.46));
-			scene.model.Apply(Translation(0, -4));
-			break;
+	//	case 0x53://2-ое задание
+	//	{
+	//		scene.model.Apply(Translation(0, 4));
+	//		scene.model.Apply(Rotation(-0.46));
+	//		//scene.model.Apply(Scaling(1.2, 1));
+	//		scene.model.Apply(MappingX());
+	//		scene.model.Apply(Rotation(0.46));
+	//		scene.model.Apply(Translation(0, -4));
+	//		break;
 
-		}
+	//	}
 
 
-		}
-		InvalidateRect(hWnd, nullptr, false);
-		return 0;
-	}
+	//	}
+	//	InvalidateRect(hWnd, nullptr, false);
+	//	return 0;
+	//}
 
 
 	case WM_MOUSEWHEEL:

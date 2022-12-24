@@ -3,44 +3,44 @@
 
 #include "Camera3D.h"
 #include"Model3D.h"
+#include"Model2D.h"
 
 class Scene3D : public Camera3D
 {
 public:
-	Model3D model;
+	Model3D model3d;
 	Scene3D(double _L, double _R, double _B, double _T) : Camera3D(_L, _R, _B, _T)
 	{
-		int e[] = { 1,2,1,3,1,4,1,5,2,3,3,4,3,5,4,5 };
-		Matrix<int> E(8, 2, e);
-		//int e[] = { 1,2,1,3,2,3 };
-		/*Matrix<int> E(3, 2, e);*/
+		int verg[] = { 2,3,4,1,3,4,1,2,3,1,2,4 };
+		Matrix<int> VERG(4, 3, verg);
 
 
+		double vert[] = { 1,1,4,3,0,0,0,3,7,3,2,3,1,1,1,1 };
+		Matrix<> VERT(4, 4, vert);
 
-		double v[] = { 1,2,3,1,3,1,2,1,-1,-1,1,1,1,1,1 };
-		Matrix<> V(3, 5, v);
-		/*double v[] = { 1,3,3,2,2,1,1,1,1 };
-		Matrix<> V(3, 3, v);*/
 
-		model.setVerAndVerg(V, E);
+		model3d.setVerAndVerg(VERT, VERG);
 	}
 
 	void Render(HDC dc, bool axes = true)
 	{
-		if (axes)
-			Axes(dc);
+		/*if (axes)
+			Axes(dc);*/
 
+		model3d.Project(WorldToProject);
+		Model2D model2d(model3d.GetVertices3D(), model3d.getEdges());
+		
 		HPEN redPen, blackPen;
 		redPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 		blackPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 		SelectObject(dc, redPen);
 
-		for (int i = 1; i <= model.getCountEdges(); i++)
+		for (int i = 1; i <= model2d.getCountEdges(); i++)
 		{
 
-			int* row = model.getEdge(i);
-			MoveTo(model.GetVertexX(row[0]), model.GetVertexY(row[0]));
-			LineTo(dc, model.GetVertexX(row[1]), model.GetVertexY(row[1]));
+			int* row = model2d.getEdge(i);
+			MoveTo(model2d.GetVertexX(row[0]), model2d.GetVertexY(row[0]));
+			LineTo(dc, model2d.GetVertexX(row[1]), model2d.GetVertexY(row[1]));
 		}
 
 		SelectObject(dc, blackPen);

@@ -2,13 +2,12 @@
 #define VECTOR_H
 
 #include<string>
-#include<fstream>
 #include<cmath>
 
 class Vector
 {
 	double* elements;
-	int size = 0;
+	int size;
 
 public:
 	Vector(int obj_size=0) :size(obj_size)

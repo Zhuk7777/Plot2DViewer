@@ -8,6 +8,7 @@
 
 class Camera3D : public Camera2D
 {
+protected:
 	Vector N, T, Ov;
 	double F;
 
@@ -17,7 +18,7 @@ public:
 
 	Camera3D(double L, double R, double B, double _T) :Camera2D(L, R, B, _T)
 	{
-		double coordinatesOv[3] = { 0,0,0 };
+		double coordinatesOv[3] = { 0,3,0 };
 		setOv(coordinatesOv, 3);
 
 		double coordinatesT[3] = { 0,1,0 };
@@ -25,6 +26,8 @@ public:
 
 		double coordinatesN[3] = { 0,0,1 };
 		setN(coordinatesN, 3);
+
+		setF(16);
 
 		UpdateCamera();
 		
@@ -53,7 +56,7 @@ public:
 
 	void UpdateCamera()
 	{
-		Vector Iv, Jv, Kv;
+		Vector Iv(3), Jv(3), Kv(3);
 
 		Iv = T.vectorMultiplication(N);
 		Iv = Iv / Iv.normOfVec();
@@ -76,10 +79,15 @@ public:
 			0,1, 0,  0,
 			0,0,-1 / F,1};
 
-		ViewToProject.setMatrix(4, 4, VP);
+		ViewToProject.setMatrix(3, 4, VP);
 
 		WorldToProject = ViewToProject * WorldToView;
 
+	}
+
+	Matrix<> getWorldToProject()
+	{
+		return WorldToProject;
 	}
 
 };
