@@ -81,37 +81,7 @@ public:
 
 	}
 
-	/*void Axes(HDC dc)
-	{
-		HPEN cyanPen, blackPen, redPen;
-		cyanPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 255));
-		blackPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-		SelectObject(dc, cyanPen);
 
-		Vector Iv(3), Jv(3), Kv(3);
-
-		Iv = getIv();
-		Jv = getJv();
-		Kv = getKv();
-
-		Iv = Iv * 100;
-		Jv = Jv * 100;
-		Kv = Kv * 100;
-
-		Vector IvU(4), JvU(4), KvU(4);
-		for (int i = 1; i <= 3; i++)
-		{
-			IvU[i] = Iv[i];
-			JvU[i] = Jv[i];
-			KvU[i] = Kv[i];
-		}
-
-		IvU[4] = 1;
-		JvU[4] = 1;
-		KvU[4] = 1;
-
-		double** xyz
-	}*/
 
 	Vector getIv()
 	{

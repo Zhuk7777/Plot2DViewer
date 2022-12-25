@@ -36,17 +36,6 @@ public:
 
 		XYZ.setVerAndVerg(XYZVER, XYZVERG);
 
-		/*double vertX[] = { Ov[1],getIv()[1],
-					   Ov[2],getIv()[2],
-					   Ov[3],getIv()[3],
-					   1,    1 };
-
-		int edgesX[] = { 1,2 };
-		Matrix<> VertX(4, 3, vertX);
-		Matrix<int> EdgesX(1, 2, edgesX);
-		Model2D axisX(VertX, EdgesX);*/
-
-
 	}
 
 	void Render(HDC dc, bool axes = true)
@@ -71,16 +60,18 @@ public:
 
 		SelectObject(dc, blackPen);
 
-		for (int i = 1; i <= XYZ2D.getCountEdges(); i++)
-		{
-			int* row = XYZ2D.getEdge(i);
-			if (row[0] == 2 && row[1] == 3)
-				continue;
-			if (row[0] == 4 && row[1] == 3)
-				continue;
-		
-			MoveTo(XYZ2D.GetVertexX(row[0]), XYZ2D.GetVertexY(row[0]));
-			LineTo(dc, XYZ2D.GetVertexX(row[1]), XYZ2D.GetVertexY(row[1]));
+		if (axes) {
+			for (int i = 1; i <= XYZ2D.getCountEdges(); i++)
+			{
+				int* row = XYZ2D.getEdge(i);
+				if (row[0] == 2 && row[1] == 3)
+					continue;
+				if (row[0] == 4 && row[1] == 3)
+					continue;
+
+				MoveTo(XYZ2D.GetVertexX(row[0]), XYZ2D.GetVertexY(row[0]));
+				LineTo(dc, XYZ2D.GetVertexX(row[1]), XYZ2D.GetVertexY(row[1]));
+			}
 		}
 	}
 
