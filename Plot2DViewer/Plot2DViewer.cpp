@@ -60,7 +60,8 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 			HDC dc = GetDC(hWnd);
 			scene.Clear(dc);
-			scene.Render(dc);
+			scene.UpdateCamera();
+			scene.Render3D(dc);
 			//scene.Plot(dc, Sinusoid, nullptr, false);
 			ReleaseDC(hWnd,dc);
 			return DefWindowProc(hWnd,msg,wParam,lParam);
@@ -75,7 +76,7 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			return 0;
 		}
 
-	case WM_LBUTTONDOWN:
+	/*case WM_LBUTTONDOWN:
 	{
 		
 		scene.StartDragging(pt.x, pt.y);
@@ -94,24 +95,24 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 		scene.StopDragging();
 		return 0;
-	}
+	}*/
 
-	//case WM_KEYDOWN:
-	//{
-	//	switch (wParam)
-	//	{
+	case WM_KEYDOWN:
+	{
+		switch (wParam)
+		{
 
-	//	case VK_LEFT:
-	//	{
-	//		if (::GetKeyState(0x52) & 0x8000)
-	//			scene.model.Apply(Rotation(0.17));
-	//		else if (::GetKeyState(0x54) & 0x8000)
-	//			scene.model.Apply(Translation(-0.5, 0));
-	//		else
-	//		scene.Move(-4, 0);
-	//		
-	//		break;
-	//	}
+		/*case VK_LEFT:
+		{
+			if (::GetKeyState(0x52) & 0x8000)
+				scene.model.Apply(Rotation(0.17));
+			else if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(-0.5, 0));
+			else
+			scene.Move(-4, 0);
+			
+			break;
+		}*/
 
 	//	case VK_RIGHT:
 	//	{
@@ -155,18 +156,23 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	//		break;
 	//	}
 
-	//	case 0x58:
-	//	{
-	//		scene.model.Apply(MappingX());
-	//		break;
-	//	}
+		case 0x58:
+		{
+			scene.model3d.Apply3D(RotationX(0.17));
+			break;
+		}
 
-	//	case 0x59:
-	//	{
-	//		scene.model.Apply(MappingY());
-	//		break;
-	//	}
+		case 0x59:
+		{
+			scene.model3d.Apply3D(RotationY(0.17));
+			break;
+		}
 
+		case 0x5A:
+		{
+			scene.model3d.Apply3D(RotationZ(0.17));
+			break;
+		}
 	//	case 0x4D:
 	//	{
 	//		scene.model.Apply(Mapping());
@@ -195,20 +201,35 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	//	}
 
 
-	//	}
-	//	InvalidateRect(hWnd, nullptr, false);
-	//	return 0;
-	//}
+		}
+		InvalidateRect(hWnd, nullptr, false);
+		return 0;
+	}
 
 
 	case WM_MOUSEWHEEL:
 	{
-		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+		/*if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
 			scene.IncreaseSize(pt.x, pt.y, 1.2);
 		else
 			scene.DecreaseSize(pt.x, pt.y, 1.2);
 		InvalidateRect(hWnd, nullptr, false);
+		return DefWindowProc(hWnd, msg, wParam, lParam);*/
+		double F = scene.getF();
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+		{
+			F *= 1.2;
+			scene.setF(F);
+		}
+		else
+		{
+			F *= 0.8;
+			scene.setF(F);
+		}
+
+		InvalidateRect(hWnd, nullptr, false);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
+
 	}
 
 	case WM_DESTROY:

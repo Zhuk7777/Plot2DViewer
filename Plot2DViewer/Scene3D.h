@@ -23,11 +23,15 @@ public:
 
 		model3d.setVerAndVerg(VERT, VERG);
 
-		double xyzVer[] = {Ov[1],getIv()[1]*100,getJv()[1]*100,getKv()[1]*100,
+		/*double xyzVer[] = {Ov[1],getIv()[1]*100,getJv()[1]*100,getKv()[1]*100,
 						   Ov[2],getIv()[2]*100,getJv()[2]*100,getKv()[2]*100,
 						   Ov[3],getIv()[3]*100,getJv()[3]*100,getKv()[3]*100,
-		                   1,    1,             1,             1};
+		                   1,    1,             1,             1};*/
 
+		double xyzVer[] = { 0,10,0,0,
+						   0,0,10,0,
+						   0,0, 0, 10, 
+		                   1,1, 1,  1};
 		Matrix<> XYZVER(4, 4, xyzVer);
 
 		int xyzVerg[] = { 1,2,3,
@@ -38,12 +42,10 @@ public:
 
 	}
 
-	void Render(HDC dc, bool axes = true)
+	void Render3D(HDC dc, bool axes = true)
 	{
-		XYZ.Project(ViewToProject);
-		model3d.Project(WorldToProject);
-		Model2D model2d(model3d.GetVertices3D(), model3d.getEdges());
-		Model2D XYZ2D(XYZ.GetVertices3D(), XYZ.getEdges());
+		Model2D model2d(model3d.Project(WorldToProject), model3d.getEdges());
+		Model2D XYZ2D(XYZ.Project(WorldToProject), XYZ.getEdges());
 		
 		HPEN redPen, blackPen;
 		redPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));

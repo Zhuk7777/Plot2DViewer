@@ -24,7 +24,7 @@ private:
 		for (int i = 2; i <= rows; i++)
 		{
 			row[0] = Edges(i, 1);
-			row[1] = Edges(i, 2);
+			row[1]=Edges(i,2);
 			if (isDuplicate(Edges, i - 1, row) == true)
 				indRows[i - 1] = 1;
 		}
@@ -132,9 +132,12 @@ public:
 		Vertices = ComulativeAT * InitialVertices;
 	}
 
-	void Project(Matrix<> P)
+	Matrix<> Project(Matrix<> P)
 	{
-		Vertices = P * Vertices;
+		Matrix<> NewVertices;
+		NewVertices = P * Vertices;
+
+		return NewVertices;
 	}
 
 };

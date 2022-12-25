@@ -10,6 +10,10 @@ protected:
 	double L, R, B, T;					// Мировые координаты границ рабочей области окна
 	int W, H;							// Разрешение рабочей области окна
 
+	double posX = 0, posY = 0;// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
+	bool isDragging = false;
+	double previousX = 0, previousY = 0;
+
 	int WorldToScreenX(double X)		// Переход от мировых координат к экранным (для абсциссы)
 	{
 		return (X - L) / (R - L) * W;
@@ -27,11 +31,6 @@ protected:
 		return T - (T - B) * ((double(Y) + 0.5) / double(H));
 	}
 
-private:
-
-	double posX = 0, posY = 0;// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
-	bool isDragging = false;
-	double previousX = 0, previousY = 0;
 
 public:
 	Camera2D(double L, double R, double B, double T) : L(L), R(R), B(B), T(T)

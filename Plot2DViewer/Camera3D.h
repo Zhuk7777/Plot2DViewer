@@ -18,13 +18,13 @@ public:
 
 	Camera3D(double L, double R, double B, double _T) :Camera2D(L, R, B, _T)
 	{
-		double coordinatesOv[3] = { 0,0,0 };
+		double coordinatesOv[3] = { 4,3,5 };
 		setOv(coordinatesOv, 3);
 
-		double coordinatesT[3] = { 1,2,3 };
+		double coordinatesT[3] = { 0,1,0 };
 		setT(coordinatesT, 3);
 
-		double coordinatesN[3] = { 4,0,1 };
+		double coordinatesN[3] = { 0,0,1 };
 		setN(coordinatesN, 3);
 
 		setF(25);
@@ -32,6 +32,26 @@ public:
 		UpdateCamera();
 		
 
+	}
+
+	Vector getN()
+	{
+		return N;
+	}
+
+	Vector getT()
+	{
+		return T;
+	}
+
+	Vector getOv()
+	{
+		return Ov;
+	}
+
+	double getF()
+	{
+		return F;
 	}
 
 	void setN(double* _N,int size)
@@ -89,6 +109,11 @@ public:
 		Iv = T.vectorMultiplication(N);
 		Iv = Iv / Iv.normOfVec();
 		return Iv;
+	/*	Iv[1] = 1;
+		Iv[2] = 0;
+		Iv[3] = 0;
+
+		return Iv;*/
 	}
 
 	Vector getKv()
@@ -97,6 +122,12 @@ public:
 		Kv = N;
 		Kv = Kv / Kv.normOfVec();
 		return Kv;
+
+		/*Kv[1] = 0;
+		Kv[2] = 0;
+		Kv[3] = 1;
+
+		return Kv;*/
 	}
 
 	Vector getJv()
@@ -107,9 +138,12 @@ public:
 		Iv = getIv();
 		Jv = Kv.vectorMultiplication(Iv);
 
+		/*Jv[1] = 0;
+		Jv[2] = 1;
+		Jv[3] = 0;*/
+
 		return Jv;
 	}
-
 
 };
 
