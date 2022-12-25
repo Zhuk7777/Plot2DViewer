@@ -87,6 +87,7 @@ public:
 	{
 		Vertices = P * Vertices;
 	}
+
 };
 
 #endif MODEL_3D_H
