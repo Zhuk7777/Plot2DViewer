@@ -36,8 +36,10 @@ public:
 		              3,4,6,
 		              3,5,6,
 		              1,2,7,
-		              2,7,8};
-		Matrix<int> VERG(10, 3, verg);
+		              2,7,8,
+		              3,4,5,
+		              4,5,6};
+		Matrix<int> VERG(12, 3, verg);
 
 
 		model3d.setVerAndVerg(VERT, VERG);
