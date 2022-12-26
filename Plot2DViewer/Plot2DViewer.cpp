@@ -198,11 +198,13 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			scene.model3d.Apply3D(RotationZ(0.17));
 			break;
 		}
+
 		case 0x4D:
 		{
 			scene.model3d.Apply3D(Mapping3D());
 			break;
 		}
+
 
 		case 0x31:
 		{
@@ -240,6 +242,42 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 
 			double coordinatesN[3] = { 1,0,0 };
 			scene.setN(coordinatesN, 3);
+			break;
+		}
+
+		case 0x34://4 - отражение относ x
+		{
+			scene.model3d.Apply3D(Mapping3Dx());
+			break;
+		}
+
+		case 0x35://5- отражение относ y
+		{
+			scene.model3d.Apply3D(Mapping3Dy());
+			break;
+		}
+
+		case 0x36://6-отражение относ z
+		{
+			scene.model3d.Apply3D(Mapping3Dz());
+			break;
+		}
+
+		case 0x37://7-отражение относ xy
+		{
+			scene.model3d.Apply3D(MappingXY());
+			break;
+		}
+
+		case 0x38://8-отражение относ zx
+		{
+			scene.model3d.Apply3D(MappingZX());
+			break;
+		}
+
+		case 0x39://9-отражение относ yz
+		{
+			scene.model3d.Apply3D(MappingYZ());
 			break;
 		}
 

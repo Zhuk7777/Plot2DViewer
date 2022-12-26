@@ -45,10 +45,10 @@ public:
 		model3d.setVerAndVerg(VERT, VERG);
 
 
-		double xyzVer[] = { 0,10,0,0,
-						   0,0,10,0,
-						   0,0, 0, 10, 
-		                   1,1, 1,  1};
+		double xyzVer[] = { 0,10,0, 0,
+						    0,0, 10,0,
+						    0,0, 0, 10, 
+		                    1,1, 1, 1};
 		Matrix<> XYZVER(4, 4, xyzVer);
 
 		int xyzVerg[] = { 1,2,3,
