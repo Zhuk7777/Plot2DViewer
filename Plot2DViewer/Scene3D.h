@@ -25,10 +25,19 @@ public:
 						  0,0,1,1,1,1,0,0,
 						  0,1,0,1,0,1,0,1,
 						  1,1,1,1,1,1,1,1 };
-
 		Matrix<> VERT(4, 8, vert);
-		int verg[] = { 2,3,4,1,3,4,1,2,3,1,2,4 };
-		Matrix<int> VERG(4, 3, verg);
+
+		int verg[] = {1,2,3,
+		              2,3,4,
+		              1,3,7,
+		              3,5,7,
+		              5,6,7,
+		              6,7,8,
+		              3,4,6,
+		              3,5,6,
+		              1,2,7,
+		              2,7,8};
+		Matrix<int> VERG(10, 3, verg);
 
 
 		model3d.setVerAndVerg(VERT, VERG);
@@ -47,12 +56,11 @@ public:
 		XYZ.setVerAndVerg(XYZVER, XYZVERG);
 
 	}
-
+	/*int ed[] = { 1,2,1,3,1,7,2,8,2,4,3,4,3,5,4,6,5,6,5,7,6,8,7,8 };
+		Matrix<int> Edges2(11, 2, ed);*/
 	void Render3D(HDC dc, bool axes = true)
 	{
-		int ed[] = { 1,2,1,3,1,7,2,8,2,4,3,4,3,5,4,6,5,6,5,7,6,8,7,8 };
-		Matrix<int> Edges2(11, 2, ed);
-		Model2D model2d(model3d.Project(WorldToProject),Edges2);
+		Model2D model2d(model3d.Project(WorldToProject),model3d.getEdges());
 		Model2D XYZ2D(XYZ.Project(WorldToProject), XYZ.getEdges());
 		
 		HPEN redPen, blackPen;

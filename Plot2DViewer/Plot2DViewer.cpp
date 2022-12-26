@@ -283,12 +283,12 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		double F = scene.getF();
 		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
 		{
-			F *= 1.05;
+			F *= 1.1;
 			scene.setF(F);
 		}
 		else
 		{
-			F *= 0.95;
+			F *= 0.9;
 			scene.setF(F);
 		}
 		InvalidateRect(hWnd, nullptr, false);
