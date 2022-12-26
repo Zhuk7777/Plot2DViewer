@@ -62,7 +62,6 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			scene.Clear(dc);
 			scene.UpdateCamera();
 			scene.Render3D(dc);
-			//scene.Plot(dc, Sinusoid, nullptr, false);
 			ReleaseDC(hWnd,dc);
 			return DefWindowProc(hWnd,msg,wParam,lParam);
 		}
@@ -76,7 +75,7 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			return 0;
 		}
 
-	/*case WM_LBUTTONDOWN:
+	case WM_LBUTTONDOWN:
 	{
 		
 		scene.StartDragging(pt.x, pt.y);
@@ -95,66 +94,91 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 		scene.StopDragging();
 		return 0;
-	}*/
+	}
 
 	case WM_KEYDOWN:
 	{
 		switch (wParam)
 		{
 
-		/*case VK_LEFT:
+		case VK_LEFT://0x58
 		{
-			if (::GetKeyState(0x52) & 0x8000)
+			scene.model3d.Apply3D(Translation(-0.5, 0, 0));
+			break;
+
+			/*if (::GetKeyState(0x52) & 0x8000)
 				scene.model.Apply(Rotation(0.17));
 			else if (::GetKeyState(0x54) & 0x8000)
 				scene.model.Apply(Translation(-0.5, 0));
 			else
 			scene.Move(-4, 0);
 			
+			break;*/
+
+		}
+
+		case VK_RIGHT:
+		{
+			scene.model3d.Apply3D(Translation(0.5, 0, 0));
 			break;
-		}*/
 
-	//	case VK_RIGHT:
-	//	{
-	//		if (::GetKeyState(0x52) & 0x8000)
-	//			scene.model.Apply(Rotation(-0.17));
-	//		else if (::GetKeyState(0x54) & 0x8000)
-	//			scene.model.Apply(Translation(0.5, 0));
-	//		else
-	//			scene.Move(4, 0);
-	//		break;
-	//	}
+			/*if (::GetKeyState(0x52) & 0x8000)
+				scene.model.Apply(Rotation(-0.17));
+			else if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(0.5, 0));
+			else
+				scene.Move(4, 0);
+			break;*/
+		}
 
-	//	case VK_UP:
-	//	{
-	//		if (::GetKeyState(0x54) & 0x8000)
-	//			scene.model.Apply(Translation(0, 0.5));
-	//		else
-	//			scene.Move(0, 4);
-	//		break;
-	//	}
+		case VK_UP:
+		{
 
-	//	case VK_DOWN:
-	//	{
-	//		if (::GetKeyState(0x54) & 0x8000)
-	//			scene.model.Apply(Translation(0, -0.5));
-	//		else
-	//			scene.Move(0, -4);
-	//		break;
-	//	}
+			scene.model3d.Apply3D(Translation(0, 0.5, 0));
+			break;
+			/*if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(0, 0.5));
+			else
+				scene.Move(0, 4);
+			break;*/
+		}
 
-	//	case VK_OEM_PLUS:
-	//	{
-	//		scene.model.Apply(Scaling(1.2, 1.2));
-	//		break;
+		case VK_DOWN:
+		{
+			scene.model3d.Apply3D(Translation(0, -0.5, 0));
+			break;
 
-	//	}
+			/*if (::GetKeyState(0x54) & 0x8000)
+				scene.model.Apply(Translation(0, -0.5));
+			else
+				scene.Move(0, -4);
+			break;*/
+		}
 
-	//	case VK_OEM_MINUS:
-	//	{
-	//		scene.model.Apply(Scaling(0.8, 0.8));
-	//		break;
-	//	}
+		case 0x57:
+		{
+			scene.model3d.Apply3D(Translation(0, 0, 0.5));
+			break;
+		}
+
+		case 0x53:
+		{
+			scene.model3d.Apply3D(Translation(0, 0, -0.5));
+			break;
+		}
+
+		case VK_OEM_PLUS:
+		{
+			scene.model3d.Apply3D(Scaling(1.2, 1.2, 1.2));
+			break;
+
+		}
+
+		case VK_OEM_MINUS:
+		{
+			scene.model3d.Apply3D(Scaling(0.8, 0.8, 0.8));
+			break;
+		}
 
 		case 0x58:
 		{
@@ -164,6 +188,7 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 
 		case 0x59:
 		{
+
 			scene.model3d.Apply3D(RotationY(0.17));
 			break;
 		}
@@ -173,11 +198,11 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			scene.model3d.Apply3D(RotationZ(0.17));
 			break;
 		}
-	//	case 0x4D:
-	//	{
-	//		scene.model.Apply(Mapping());
-	//		break;
-	//	}
+		case 0x4D:
+		{
+			scene.model3d.Apply3D(Mapping3D());
+			break;
+		}
 
 	//	case 0x5A://1-ое задание
 	//	{
@@ -218,15 +243,14 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		double F = scene.getF();
 		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
 		{
-			F *= 1.2;
+			F *= 1.05;
 			scene.setF(F);
 		}
 		else
 		{
-			F *= 0.8;
+			F *= 0.95;
 			scene.setF(F);
 		}
-
 		InvalidateRect(hWnd, nullptr, false);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 

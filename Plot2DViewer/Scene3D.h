@@ -13,20 +13,26 @@ public:
 	Model3D XYZ;
 	Scene3D(double _L, double _R, double _B, double _T) : Camera3D(_L, _R, _B, _T)
 	{
-		int verg[] = { 2,3,4,1,3,4,1,2,3,1,2,4 };
+
+		/*int verg[] = { 2,3,4,1,3,4,1,2,3,1,2,4 };
 		Matrix<int> VERG(4, 3, verg);
 
 
 		double vert[] = { 1,1,4,3,0,0,0,3,7,3,2,3,1,1,1,1 };
-		Matrix<> VERT(4, 4, vert);
+		Matrix<> VERT(4, 4, vert);*/
+
+		double vert[] = { 1,1,1,1,0,0,0,0,
+						  0,0,1,1,1,1,0,0,
+						  0,1,0,1,0,1,0,1,
+						  1,1,1,1,1,1,1,1 };
+
+		Matrix<> VERT(4, 8, vert);
+		int verg[] = { 2,3,4,1,3,4,1,2,3,1,2,4 };
+		Matrix<int> VERG(4, 3, verg);
 
 
 		model3d.setVerAndVerg(VERT, VERG);
 
-		/*double xyzVer[] = {Ov[1],getIv()[1]*100,getJv()[1]*100,getKv()[1]*100,
-						   Ov[2],getIv()[2]*100,getJv()[2]*100,getKv()[2]*100,
-						   Ov[3],getIv()[3]*100,getJv()[3]*100,getKv()[3]*100,
-		                   1,    1,             1,             1};*/
 
 		double xyzVer[] = { 0,10,0,0,
 						   0,0,10,0,
@@ -44,7 +50,9 @@ public:
 
 	void Render3D(HDC dc, bool axes = true)
 	{
-		Model2D model2d(model3d.Project(WorldToProject), model3d.getEdges());
+		int ed[] = { 1,2,1,3,1,7,2,8,2,4,3,4,3,5,4,6,5,6,5,7,6,8,7,8 };
+		Matrix<int> Edges2(11, 2, ed);
+		Model2D model2d(model3d.Project(WorldToProject),Edges2);
 		Model2D XYZ2D(XYZ.Project(WorldToProject), XYZ.getEdges());
 		
 		HPEN redPen, blackPen;

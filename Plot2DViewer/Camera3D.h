@@ -18,13 +18,22 @@ public:
 
 	Camera3D(double L, double R, double B, double _T) :Camera2D(L, R, B, _T)
 	{
-		double coordinatesOv[3] = { 4,3,5 };
+		/*double coordinatesOv[3] = { 3,3,8 };
 		setOv(coordinatesOv, 3);
 
 		double coordinatesT[3] = { 0,1,0 };
 		setT(coordinatesT, 3);
 
 		double coordinatesN[3] = { 0,0,1 };
+		setN(coordinatesN, 3);*/
+
+		double coordinatesOv[3] = { 4,4,4 };
+		setOv(coordinatesOv, 3);
+
+		double coordinatesT[3] = { 0,1,0 };
+		setT(coordinatesT, 3);
+
+		double coordinatesN[3] = { 1,1,1 };
 		setN(coordinatesN, 3);
 
 		setF(25);
@@ -90,10 +99,11 @@ public:
 
 		WorldToView.setMatrix(4, 4, WV);
 
+		double param = -1 / F;
 		double VP[16] = {
 			1,0, 0,  0,
 			0,1, 0,  0,
-			0,0,-1 / F,1};
+			0,0,param,1};
 
 		ViewToProject.setMatrix(3, 4, VP);
 
@@ -109,11 +119,6 @@ public:
 		Iv = T.vectorMultiplication(N);
 		Iv = Iv / Iv.normOfVec();
 		return Iv;
-	/*	Iv[1] = 1;
-		Iv[2] = 0;
-		Iv[3] = 0;
-
-		return Iv;*/
 	}
 
 	Vector getKv()
@@ -123,11 +128,6 @@ public:
 		Kv = Kv / Kv.normOfVec();
 		return Kv;
 
-		/*Kv[1] = 0;
-		Kv[2] = 0;
-		Kv[3] = 1;
-
-		return Kv;*/
 	}
 
 	Vector getJv()
@@ -138,9 +138,6 @@ public:
 		Iv = getIv();
 		Jv = Kv.vectorMultiplication(Iv);
 
-		/*Jv[1] = 0;
-		Jv[2] = 1;
-		Jv[3] = 0;*/
 
 		return Jv;
 	}
