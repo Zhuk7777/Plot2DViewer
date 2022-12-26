@@ -18,15 +18,6 @@ public:
 
 	Camera3D(double L, double R, double B, double _T) :Camera2D(L, R, B, _T)
 	{
-		/*double coordinatesOv[3] = { 3,3,8 };
-		setOv(coordinatesOv, 3);
-
-		double coordinatesT[3] = { 0,1,0 };
-		setT(coordinatesT, 3);
-
-		double coordinatesN[3] = { 0,0,1 };
-		setN(coordinatesN, 3);*/
-
 		double coordinatesOv[3] = { 4,4,4 };
 		setOv(coordinatesOv, 3);
 

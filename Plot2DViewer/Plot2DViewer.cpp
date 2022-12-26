@@ -204,6 +204,46 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			break;
 		}
 
+		case 0x31:
+		{
+			double coordinatesOv[3] = { 3,3,8 };
+			scene.setOv(coordinatesOv, 3);
+
+			double coordinatesT[3] = { 0,1,0 };
+			scene.setT(coordinatesT, 3);
+
+			double coordinatesN[3] = { 0,0,1 };
+			scene.setN(coordinatesN, 3);
+			break;
+		}
+
+		case 0x32:
+		{
+			double coordinatesOv[3] = { 4,4,4 };
+			scene.setOv(coordinatesOv, 3);
+
+			double coordinatesT[3] = { 0,1,0 };
+			scene.setT(coordinatesT, 3);
+
+			double coordinatesN[3] = { 1,1,1 };
+			scene.setN(coordinatesN, 3);
+			break;
+		}
+
+		case 0x33:
+		{
+			double coordinatesOv[3] = { 3,3,4 };
+			scene.setOv(coordinatesOv, 3);
+
+			double coordinatesT[3] = { 0,1,0 };
+			scene.setT(coordinatesT, 3);
+
+			double coordinatesN[3] = { 1,0,0 };
+			scene.setN(coordinatesN, 3);
+			break;
+		}
+
+
 	//	case 0x5A://1-ое задание
 	//	{
 	//		double x = scene.model.GetVertexX(1), y = scene.model.GetVertexY(1);
