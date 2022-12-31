@@ -53,6 +53,15 @@ Matrix<> RotationY(double t)
 	return Matrix<>(4, 4, R);
 }
 
+Matrix<> RotationYcs(double c,double s)
+{
+	double	R[16] = {
+		c, 0,s,0,
+		0,      1,0,     0,
+		-s,0,c,0,
+		0,      0,0,     1 };
+	return Matrix<>(4, 4, R);
+}
 Matrix<> Scaling(double kx, double ky, double kz)
 {
 	double S[16] = {

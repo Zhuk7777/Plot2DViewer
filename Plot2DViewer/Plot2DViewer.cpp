@@ -85,7 +85,7 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 		if (scene.IsDragging())
 		{
-			scene.Drag(pt.x, pt.y);
+			scene.Drag3D(pt.x, pt.y);
 			InvalidateRect(hWnd, nullptr, false);
 		}
 		return 0;
@@ -281,6 +281,32 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			break;
 		}
 
+		case 0x4F://1 задание 3 лабы
+		{
+			scene.model3d.Apply3D(Translation(-1, -1, 0));
+			double c = 2 / sqrt(5), s = 1 / sqrt(5);
+			scene.model3d.Apply3D(RotationYcs(c, s));
+			scene.model3d.Apply3D(Scaling(1, 1.5, 1.5));
+			scene.model3d.Apply3D(RotationYcs(c, -s));
+			scene.model3d.Apply3D(Translation(1, 1, 0));
+			break;
+
+
+		}
+
+		case 0x51:
+		{
+			double x = scene.model3d.GetVertexX3D(1);
+			double y = scene.model3d.GetVertexY3D(1);
+			double z = scene.model3d.GetVertexZ3D(1);
+			scene.model3d.Apply3D(Translation(-x, -y, -z));
+			scene.model3d.Apply3D(RotationZ(0.17));
+			scene.model3d.Apply3D(Translation(x, y, z));
+			break;
+
+
+		}
+
 
 	//	case 0x5A://1-ое задание
 	//	{
@@ -321,12 +347,12 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		double F = scene.getF();
 		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
 		{
-			F *= 1.1;
+			F *= 1.5;
 			scene.setF(F);
 		}
 		else
 		{
-			F *= 0.9;
+			F *= 0.8;
 			scene.setF(F);
 		}
 		InvalidateRect(hWnd, nullptr, false);
