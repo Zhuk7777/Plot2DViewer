@@ -136,15 +136,15 @@ public:
 
 	void Drag3D(int X, int Y)
 	{
-		double deltaX = previousX - ScreenToWorldX(X);//delta>0 -сдвиг влево
+		double deltaX = previousX - ScreenToWorldX(X);
 		double VerN[] = { N[1],N[2],N[3],1 };
 		Matrix<> VERN(4, 1, VerN);
-		VERN = Translation(-Ov[1], -Ov[2], -Ov[3]) * VERN;
+		VERN = Translation(-T[1], -T[2], -T[3]) * VERN;
 		if (deltaX > 0)
 			VERN = RotationY(-0.01) * VERN;
 		else
 			VERN = RotationY(0.01) * VERN;
-		VERN = Translation(Ov[1], Ov[2], Ov[3]) * VERN;
+		VERN = Translation(T[1], T[2], T[3]) * VERN;
 		for (int i = 1; i < 3; i++)
 			N[i] = VERN(i, 1);
 
